@@ -1,0 +1,155 @@
+html {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  background-image: url(images/desert.jpg);
+  background-size: cover;
+  background-position: 100%;
+  margin: auto;
+  background-repeat: no-repeat;
+}
+
+.startButton {
+  height: 60px;
+  width: 120px;
+  position: absolute;
+  padding: 12px;
+  background-color: rgb(46, 207, 102);
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 12px;
+  margin-top: 55%;
+}
+
+.restartButton {
+  height: 60px;
+  width: 120px;
+  position: absolute;
+  padding: 12px;
+  background-color: rgb(46, 207, 102);
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 12px;
+  margin-top: 55%;
+}
+
+.gameDiv {
+  background-image: url(images/gamebackground.jpg);
+  display: flex;
+  height: 650px;
+  width: 1000px;
+  position: relative;
+  margin: auto;
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: 100%;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  animation: back-animation 40s linear infinite;
+}
+
+@keyframes back-animation {
+  from {
+      background-position: 10000px 0;
+  }
+
+  to {
+      background-position: 0 0;
+  }
+}
+
+.dinosaur {
+  background-image: url("images/dinosaur.png");
+  width: 135px;
+  height: 135px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  bottom: 4%;
+  left: 6%;
+  animation: run 0.1s ease infinite;
+}
+
+@keyframes run {
+
+  0%,
+  100% {
+      transform: translateY(-1px);
+  }
+
+  50% {
+      transform: translateY(1px);
+  }
+}
+
+.cactus {
+  background-image: url("images/cactus.png");
+  width: 85px;
+  height: 115px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  bottom: 4%;
+  left: 95%;
+}
+
+.bale {
+  background-image: url("images/bale.png");
+  width: 125px;
+  height: 125px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  bottom: 2%;
+  left: 85%;
+}
+
+.rock {
+  background-image: url("images/rock.png");
+  width: 105px;
+  height: 95px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  bottom: 2%;
+  left: 65%;
+}
+
+.score {
+  height: 250px;
+  width: 250px;
+  position: absolute;
+  overflow: hidden;
+  margin-left: 795px;
+  margin-bottom: 350px;
+  color: white;
+}
+
+.gameOverDiv {
+  background-image: url(images/Game-Over-Graphics-30114494-1-580x386.jpg);
+  width: 250px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  bottom: 50%;
+  left: 38%;
+}
+
+#hour,
+#minute,
+#second,
+#level,
+.time,
+.level {
+  color: white;
+}
