@@ -8,7 +8,7 @@ html {
 
 body {
   display: flex;
-  background-image: url(images/desert.jpg);
+  background-image: url(desert.jpg);
   background-size: cover;
   background-position: 100%;
   margin: auto;
@@ -42,7 +42,7 @@ body {
 }
 
 .gameDiv {
-  background-image: url(images/gamebackground.jpg);
+  background-image: url(gamebackground.jpg);
   display: flex;
   height: 650px;
   width: 1000px;
@@ -68,7 +68,7 @@ body {
 }
 
 .dinosaur {
-  background-image: url("images/dinosaur.png");
+  background-image: url("dinosaur.png");
   width: 135px;
   height: 135px;
   background-size: cover;
@@ -92,7 +92,7 @@ body {
 }
 
 .cactus {
-  background-image: url("images/cactus.png");
+  background-image: url("cactus.png");
   width: 85px;
   height: 115px;
   background-size: cover;
@@ -103,7 +103,7 @@ body {
 }
 
 .bale {
-  background-image: url("images/bale.png");
+  background-image: url("bale.png");
   width: 125px;
   height: 125px;
   background-size: cover;
@@ -114,7 +114,7 @@ body {
 }
 
 .rock {
-  background-image: url("images/rock.png");
+  background-image: url("rock.png");
   width: 105px;
   height: 95px;
   background-size: cover;
@@ -135,7 +135,7 @@ body {
 }
 
 .gameOverDiv {
-  background-image: url(images/Game-Over-Graphics-30114494-1-580x386.jpg);
+  background-image: url(Game-Over-Graphics-30114494-1-580x386.jpg);
   width: 250px;
   height: 200px;
   background-size: cover;
