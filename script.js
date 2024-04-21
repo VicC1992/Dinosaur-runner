@@ -1,3 +1,6 @@
+const TEN = 10;
+const HUNDRED = 100;
+const THOUSAND = 1000;
 const windowGame = document.querySelector(".gameDiv");
 const windowGameRect = windowGame.getBoundingClientRect();
 let gameInProcess = false;
@@ -10,28 +13,31 @@ function createDinosaur() {
     document.addEventListener("keyup", timeout);
 }
 //up
+let jumpSize = 30;
 let verticalPositionDinosaur = 4;
 let limitJump = 34;
 
 function dinosaurJump(e) {
     const jump = document.querySelector(".dinosaur");
     if (e.key === " " && verticalPositionDinosaur < limitJump) {
-        verticalPositionDinosaur += 30;
+        verticalPositionDinosaur += jumpSize;
         jump.style.bottom = `${verticalPositionDinosaur}%`;
     }
 }
+let jumpDuration = 1300;
 //down
 function timeout(e) {
     if (e.key === " ") {
         setTimeout(
             function dinosaurAvoide() {
                 const avoide = document.querySelector(".dinosaur");
-                verticalPositionDinosaur -= 30;
+                verticalPositionDinosaur -= jumpSize;
                 avoide.style.bottom = `${verticalPositionDinosaur}%`;
-        }, 1300);
+        }, jumpDuration);
     }
 }
-let obstaclesSpeed = 60;
+const obstaclesSpeed = 6;
+const startObstaclePosition = 950;
 //createCactus
 function createGreenCactus() {
     const greenCactus = document.createElement("div");
@@ -42,7 +48,7 @@ function createGreenCactus() {
 //move cactus
 function greenCactusMove(greenCactus) {
     if (gameInProcess === true) {
-        let cactusPosition = 950;
+        let cactusPosition = startObstaclePosition;
         let setGreenCactusMove = setInterval(() => {
             cactusPosition -= changePosition;
             greenCactus.style.left = `${cactusPosition}px`;
@@ -64,7 +70,7 @@ function createStrawBale() {
 // move straw bale
 function baleMove(bale) {
     if (gameInProcess === true) {
-        let balePosition = 950;
+        let balePosition = startObstaclePosition;
         let setBaleMove = setInterval(() => {
             balePosition -= changePosition;
             bale.style.left = `${balePosition}px`;
@@ -86,7 +92,7 @@ function createRock() {
 //move rock;
 function rockMove(rock) {
     if (gameInProcess === true) {
-        let rockPosition = 950;
+        let rockPosition = startObstaclePosition;
         let setRockMove = setInterval(() => {
             rockPosition -= changePosition;
             rock.style.left = `${rockPosition}px`;
@@ -134,7 +140,7 @@ function start() {
     pause();
     cron = setInterval(() => {
         timer();
-    }, 10);
+    }, TEN);
 }
 
 function pause() {
@@ -152,11 +158,11 @@ function reset() {
 }
 
 function timer() {
-    if ((millisecond += 10) == 1000) {
+    if ((millisecond += TEN) == THOUSAND) {
         millisecond = 0;
         second++;
     }
-    if (second == 5) {
+    if (second == 60) {
         second = 0;
         nextLevel();
         minute++;
@@ -171,17 +177,18 @@ function timer() {
 }
 
 function returnData(input) {
-    return input > 10 ? input : `0${input}`
+    return input > TEN ? input : `0${input}`
 }
 // next level
 let level = 0;
 const spanLevel = document.getElementById("level");
 let changePosition = 2;
+let incrementObstacleMove = 0.5;
 
 function nextLevel() {
     ++level;
     spanLevel.innerText = level;
-    changePosition += 0.5;
+    changePosition += incrementObstacleMove;
 }
 // check objects collisions
 let checkCollisionRockInterval;
@@ -193,7 +200,7 @@ function checkCollisionRock() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         rocks.forEach(rock => {
             const rockRect = rock.getBoundingClientRect();
-            if (rockRect.left <= dinosaurRect.right && rockRect.right >= dinosaurRect.left && rockRect.top <= dinosaurRect.bottom && dinosaurRect.bottom >= rockRect.top) {
+            if (rockRect.left <= dinosaurRect.right && rockRect.right >= dinosaurRect.left && rockRect.top <= dinosaurRect.bottom) {
                 gameOver();
             }
         });
@@ -208,7 +215,7 @@ function checkCollisionCactus() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         cacti.forEach(cactus => {
             const cactusRect = cactus.getBoundingClientRect();
-            if (cactusRect.left <= dinosaurRect.right && cactusRect.right >= dinosaurRect.left && cactusRect.top <= dinosaurRect.bottom && dinosaurRect.bottom >= cactusRect.top) {
+            if (cactusRect.left <= dinosaurRect.right && cactusRect.right >= dinosaurRect.left && cactusRect.top <= dinosaurRect.bottom) {
                 gameOver();
             }
         });
@@ -223,7 +230,7 @@ function checkCollisionBale() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         bales.forEach(bale => {
             const baleRect = bale.getBoundingClientRect();
-            if (baleRect.left <= dinosaurRect.right && baleRect.right >= dinosaurRect.left && baleRect.top <= dinosaurRect.bottom && dinosaurRect.bottom >= baleRect.top) {
+            if (baleRect.left <= dinosaurRect.right && baleRect.right >= dinosaurRect.left && baleRect.top <= dinosaurRect.bottom) {
                 gameOver();
             }
         });
@@ -237,13 +244,13 @@ function startGame() {
     start();
     startButton.remove();
     setCreateObscatles = setInterval(createRandomObstacle, intervalCreateObstacles);
-    checkCollisionCactusInterval = setInterval(checkCollisionCactus, 100);
-    checkCollisionRockInterval = setInterval(checkCollisionRock, 100);
-    checkCollisionBaleInterval = setInterval(checkCollisionBale, 100);
+    checkCollisionCactusInterval = setInterval(checkCollisionCactus, HUNDRED);
+    checkCollisionRockInterval = setInterval(checkCollisionRock, HUNDRED);
+    checkCollisionBaleInterval = setInterval(checkCollisionBale, HUNDRED);
 }
 //restart a new game function
 function restartGame() {
-    changePosition = 1
+    changePosition = 2;
     level = 0;
     spanLevel.innerText = level;
     gameInProcess = true;
@@ -255,9 +262,9 @@ function restartGame() {
     reset();
     start();
     setCreateObscatles = setInterval(createRandomObstacle, intervalCreateObstacles);
-    checkCollisionCactusInterval = setInterval(checkCollisionCactus, 100);
-    checkCollisionRockInterval = setInterval(checkCollisionRock, 100);
-    checkCollisionBaleInterval = setInterval(checkCollisionBale, 100);
+    checkCollisionCactusInterval = setInterval(checkCollisionCactus, HUNDRED);
+    checkCollisionRockInterval = setInterval(checkCollisionRock, HUNDRED);
+    checkCollisionBaleInterval = setInterval(checkCollisionBale, HUNDRED);
 }
 
 function createGameOverDiv() {
