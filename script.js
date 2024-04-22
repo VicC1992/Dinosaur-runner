@@ -200,9 +200,9 @@ function checkCollisionRock() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         rocks.forEach(rock => {
             const rockRect = rock.getBoundingClientRect();
-            if (rockRect.left <= dinosaurRect.right && rockRect.right >= dinosaurRect.left && rockRect.top <= dinosaurRect.bottom) {
-                gameOver();
-            }
+            ((rockRect.left <= dinosaurRect.right ? 1 : 0) + 
+            (rockRect.right >= dinosaurRect.left ? 1 : 0) + 
+            (rockRect.top <= dinosaurRect.bottom ? 1 : 0)) === 3 ? gameOver() : null;
         });
     }
 }
@@ -215,9 +215,9 @@ function checkCollisionCactus() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         cacti.forEach(cactus => {
             const cactusRect = cactus.getBoundingClientRect();
-            if (cactusRect.left <= dinosaurRect.right && cactusRect.right >= dinosaurRect.left && cactusRect.top <= dinosaurRect.bottom) {
-                gameOver();
-            }
+            ((cactusRect.left <= dinosaurRect.right ? 1 : 0) + 
+            (cactusRect.right >= dinosaurRect.left ? 1 : 0) + 
+            (cactusRect.top <= dinosaurRect.bottom ? 1 : 0)) === 3 ? gameOver() : null;
         });
     }
 }
@@ -230,9 +230,9 @@ function checkCollisionBale() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         bales.forEach(bale => {
             const baleRect = bale.getBoundingClientRect();
-            if (baleRect.left <= dinosaurRect.right && baleRect.right >= dinosaurRect.left && baleRect.top <= dinosaurRect.bottom) {
-                gameOver();
-            }
+            ((baleRect.left <= dinosaurRect.right ? 1 : 0) + 
+            (baleRect.right >= dinosaurRect.left ? 1 : 0) + 
+            (baleRect.top <= dinosaurRect.bottom ? 1 : 0)) === 3 ? gameOver() : null;
         });
     }
 }
