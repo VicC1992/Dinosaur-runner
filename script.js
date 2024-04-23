@@ -177,7 +177,11 @@ function timer() {
 }
 
 function returnData(input) {
-    return input > TEN ? input : `0${input}`
+    if (input >= TEN) {
+        return input;
+    } else {
+        return `0${input}`;
+    }
 }
 // next level
 let level = 0;
@@ -200,9 +204,11 @@ function checkCollisionRock() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         rocks.forEach(rock => {
             const rockRect = rock.getBoundingClientRect();
-            ((rockRect.left <= dinosaurRect.right ? 1 : 0) + 
-            (rockRect.right >= dinosaurRect.left ? 1 : 0) + 
-            (rockRect.top <= dinosaurRect.bottom ? 1 : 0)) === 3 ? gameOver() : null;
+            if (rockRect.left <= dinosaurRect.right &&
+                rockRect.right >= dinosaurRect.left &&
+                rockRect.top <= dinosaurRect.bottom) {
+                gameOver();
+            }
         });
     }
 }
@@ -215,9 +221,11 @@ function checkCollisionCactus() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         cacti.forEach(cactus => {
             const cactusRect = cactus.getBoundingClientRect();
-            ((cactusRect.left <= dinosaurRect.right ? 1 : 0) + 
-            (cactusRect.right >= dinosaurRect.left ? 1 : 0) + 
-            (cactusRect.top <= dinosaurRect.bottom ? 1 : 0)) === 3 ? gameOver() : null;
+            if (cactusRect.left <= dinosaurRect.right &&
+                cactusRect.right >= dinosaurRect.left &&
+                cactusRect.top <= dinosaurRect.bottom) {
+                gameOver();
+            }
         });
     }
 }
@@ -230,9 +238,11 @@ function checkCollisionBale() {
         const dinosaurRect = dinosaur.getBoundingClientRect();
         bales.forEach(bale => {
             const baleRect = bale.getBoundingClientRect();
-            ((baleRect.left <= dinosaurRect.right ? 1 : 0) + 
-            (baleRect.right >= dinosaurRect.left ? 1 : 0) + 
-            (baleRect.top <= dinosaurRect.bottom ? 1 : 0)) === 3 ? gameOver() : null;
+            if (baleRect.left <= dinosaurRect.right &&
+                baleRect.right >= dinosaurRect.left &&
+                baleRect.top <= dinosaurRect.bottom) {
+                gameOver();
+            }
         });
     }
 }
