@@ -198,11 +198,11 @@ function startGame() {
     checkCollisionCactusInterval = setInterval(()=> {
         checkCollision(firstObstacle);
     }, HUNDRED);
-    checkCollisionRockInterval = setInterval(()=> {
-        checkCollision(thirdObstacle);
-    }, HUNDRED);
     checkCollisionBaleInterval = setInterval(()=> {
         checkCollision(secondObstacle);
+    }, HUNDRED);
+    checkCollisionRockInterval = setInterval(()=> {
+        checkCollision(thirdObstacle);
     }, HUNDRED);
 }
 
@@ -223,11 +223,11 @@ function restartGame() {
     checkCollisionCactusInterval = setInterval(()=> {
         checkCollision(firstObstacle);
     }, HUNDRED);
-    checkCollisionRockInterval = setInterval(()=> {
-        checkCollision(thirdObstacle);
-    }, HUNDRED);
     checkCollisionBaleInterval = setInterval(()=> {
         checkCollision(secondObstacle);
+    }, HUNDRED);
+    checkCollisionRockInterval = setInterval(()=> {
+        checkCollision(thirdObstacle);
     }, HUNDRED);
 }
 
