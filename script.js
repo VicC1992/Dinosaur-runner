@@ -1,9 +1,11 @@
 const TEN = 10;
+const SIXTY = 60;
 const HUNDRED = 100;
 const THOUSAND = 1000;
 const windowGame = document.querySelector(".gameDiv");
 const windowGameRect = windowGame.getBoundingClientRect();
-let gameInProcess = false;
+let gameInProgress = false;
+
 //create dinosaur
 function createDinosaur() {
     const dinosaur = document.createElement("div");
@@ -12,6 +14,7 @@ function createDinosaur() {
     document.addEventListener("keydown", dinosaurJump);
     document.addEventListener("keyup", timeout);
 }
+
 //up
 let jumpSize = 30;
 let verticalPositionDinosaur = 4;
@@ -24,8 +27,10 @@ function dinosaurJump(e) {
         jump.style.bottom = `${verticalPositionDinosaur}%`;
     }
 }
-let jumpDuration = 1300;
+
 //down
+let jumpDuration = 1300;
+
 function timeout(e) {
     if (e.key === " ") {
         setTimeout(
@@ -36,70 +41,29 @@ function timeout(e) {
         }, jumpDuration);
     }
 }
+
 const obstaclesSpeed = 6;
 const startObstaclePosition = 950;
-//createCactus
-function createGreenCactus() {
-    const greenCactus = document.createElement("div");
-    windowGame.appendChild(greenCactus);
-    greenCactus.classList.add("cactus");
-    greenCactusMove(greenCactus);
+let obstacleType;
+
+//create obstacles
+function createObstacleObjects(obstacleType) {
+    const obstacle = document.createElement("div");
+    windowGame.appendChild(obstacle);
+    obstacle.classList.add(obstacleType);
+    obstacleObjectsMove(obstacle);
 }
-//move cactus
-function greenCactusMove(greenCactus) {
-    if (gameInProcess === true) {
-        let cactusPosition = startObstaclePosition;
-        let setGreenCactusMove = setInterval(() => {
-            cactusPosition -= changePosition;
-            greenCactus.style.left = `${cactusPosition}px`;
-            const cactusRect = greenCactus.getBoundingClientRect();
-            if (cactusRect.left <= windowGameRect.left) {
-                clearInterval(setGreenCactusMove);
-                greenCactus.remove();
-            }
-        }, obstaclesSpeed);
-    }
-}
-//create a straw bale
-function createStrawBale() {
-    const bale = document.createElement("div");
-    windowGame.appendChild(bale);
-    bale.classList.add("bale");
-    baleMove(bale);
-}
-// move straw bale
-function baleMove(bale) {
-    if (gameInProcess === true) {
-        let balePosition = startObstaclePosition;
-        let setBaleMove = setInterval(() => {
-            balePosition -= changePosition;
-            bale.style.left = `${balePosition}px`;
-            const baleRect = bale.getBoundingClientRect();
-            if (baleRect.left <= windowGameRect.left) {
-                clearInterval(setBaleMove);
-                bale.remove();
-            }
-        }, obstaclesSpeed);
-    }
-}
-//create a rock;
-function createRock() {
-    const rock = document.createElement("div");
-    windowGame.appendChild(rock);
-    rock.classList.add("rock");
-    rockMove(rock);
-}
-//move rock;
-function rockMove(rock) {
-    if (gameInProcess === true) {
-        let rockPosition = startObstaclePosition;
-        let setRockMove = setInterval(() => {
-            rockPosition -= changePosition;
-            rock.style.left = `${rockPosition}px`;
-            const rockRect = rock.getBoundingClientRect();
-            if (rockRect.left <= windowGameRect.left) {
-                clearInterval(setRockMove);
-                rock.remove();
+
+function obstacleObjectsMove(obstacle) {
+    if (gameInProgress) {
+        let obstaclePosition = startObstaclePosition;
+        let setObstacleMove = setInterval(() => {
+            obstaclePosition -= changePosition;
+            obstacle.style.left = `${obstaclePosition}px`;
+            const obstacleRect = obstacle.getBoundingClientRect();
+            if (obstacleRect.left <= windowGameRect.left) {
+                clearInterval(setObstacleMove);
+                obstacle.remove();
             }
         }, obstaclesSpeed);
     }
@@ -109,26 +73,66 @@ let cactusObstacle = 1;
 let baleObstacle = 2;
 let rockObstacle = 3;
 let setCreateObscatles;
-let obstacleType;
+let randomObstacle;
+
 //generate a integer number between min - max
 function getRandomNumber(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
 }
-// cerate obstacles for dinosaur
+
+// create types of obstacles
 let intervalCreateObstacles = 3000;
 
 function createRandomObstacle() {
-    obstacleType = getRandomNumber(1, 4);
-    if (obstacleType === cactusObstacle) {
-        createGreenCactus();
-    } else if (obstacleType === baleObstacle) {
-        createStrawBale();
-    } else if (obstacleType === rockObstacle) {
-        createRock();
+    randomObstacle = getRandomNumber(1, 4);
+    if (randomObstacle === cactusObstacle) {
+        obstacleType = "cactus";;
+    } else if (randomObstacle === baleObstacle) {
+        obstacleType = "bale";
+    } else if (randomObstacle === rockObstacle) {
+        obstacleType = "rock";
+    }
+    createObstacleObjects(obstacleType);
+}
+
+// check objects collisions
+let firstObstacle = "cactus";
+let secondObstacle = "bale";
+let thirdObstacle = "rock";
+let checkCollisionRockInterval;
+let checkCollisionBaleInterval;
+let checkCollisionCactusInterval;
+
+function checkCollision(typeObstacle) {
+    if (gameInProgress) {
+        const obstacles = document.querySelectorAll("." + `${typeObstacle}`);
+        const dinosaur = document.querySelector(".dinosaur");
+        const dinosaurRect = dinosaur.getBoundingClientRect();
+        obstacles.forEach(obstacle => {
+            const obstacleRect = obstacle.getBoundingClientRect();
+            if (obstacleRect.left <= dinosaurRect.right &&
+                obstacleRect.right >= dinosaurRect.left &&
+                obstacleRect.top <= dinosaurRect.bottom) {
+                gameOver();
+            }
+        });
     }
 }
+
+// next level
+let level = 0;
+const spanLevel = document.getElementById("level");
+let changePosition = 2;
+let incrementObstacleMove = 0.5;
+
+function nextLevel() {
+    ++level;
+    spanLevel.innerText = level;
+    changePosition += incrementObstacleMove;
+}
+
 //timer
 let hour = 0;
 let minute = 0;
@@ -160,16 +164,16 @@ function reset() {
 function timer() {
     if ((millisecond += TEN) == THOUSAND) {
         millisecond = 0;
-        second++;
+        ++second;
     }
-    if (second == 60) {
+    if (second == SIXTY) {
         second = 0;
         nextLevel();
-        minute++;
+        ++minute;
     }
-    if (minute == 60) {
+    if (minute == SIXTY) {
         minute = 0;
-        hour++;
+        ++hour;
     }
     document.getElementById('hour').innerText = returnData(hour);
     document.getElementById('minute').innerText = returnData(minute);
@@ -179,91 +183,35 @@ function timer() {
 function returnData(input) {
     if (input >= TEN) {
         return input;
-    } else {
-        return `0${input}`;
     }
+    return `0${input}`;
 }
-// next level
-let level = 0;
-const spanLevel = document.getElementById("level");
-let changePosition = 2;
-let incrementObstacleMove = 0.5;
 
-function nextLevel() {
-    ++level;
-    spanLevel.innerText = level;
-    changePosition += incrementObstacleMove;
-}
-// check objects collisions
-let checkCollisionRockInterval;
-
-function checkCollisionRock() {
-    if (gameInProcess === true) {
-        const rocks = document.querySelectorAll(".rock");
-        const dinosaur = document.querySelector(".dinosaur");
-        const dinosaurRect = dinosaur.getBoundingClientRect();
-        rocks.forEach(rock => {
-            const rockRect = rock.getBoundingClientRect();
-            if (rockRect.left <= dinosaurRect.right &&
-                rockRect.right >= dinosaurRect.left &&
-                rockRect.top <= dinosaurRect.bottom) {
-                gameOver();
-            }
-        });
-    }
-}
-let checkCollisionCactusInterval;
-
-function checkCollisionCactus() {
-    if (gameInProcess === true) {
-        const cacti = document.querySelectorAll(".cactus");
-        const dinosaur = document.querySelector(".dinosaur");
-        const dinosaurRect = dinosaur.getBoundingClientRect();
-        cacti.forEach(cactus => {
-            const cactusRect = cactus.getBoundingClientRect();
-            if (cactusRect.left <= dinosaurRect.right &&
-                cactusRect.right >= dinosaurRect.left &&
-                cactusRect.top <= dinosaurRect.bottom) {
-                gameOver();
-            }
-        });
-    }
-}
-let checkCollisionBaleInterval;
-
-function checkCollisionBale() {
-    if (gameInProcess === true) {
-        const bales = document.querySelectorAll(".bale");
-        const dinosaur = document.querySelector(".dinosaur");
-        const dinosaurRect = dinosaur.getBoundingClientRect();
-        bales.forEach(bale => {
-            const baleRect = bale.getBoundingClientRect();
-            if (baleRect.left <= dinosaurRect.right &&
-                baleRect.right >= dinosaurRect.left &&
-                baleRect.top <= dinosaurRect.bottom) {
-                gameOver();
-            }
-        });
-    }
-}
 //start game function
 function startGame() {
     let startButton = document.querySelector(".startButton");
-    gameInProcess = true;
+    gameInProgress = true;
     createDinosaur();
     start();
     startButton.remove();
     setCreateObscatles = setInterval(createRandomObstacle, intervalCreateObstacles);
-    checkCollisionCactusInterval = setInterval(checkCollisionCactus, HUNDRED);
-    checkCollisionRockInterval = setInterval(checkCollisionRock, HUNDRED);
-    checkCollisionBaleInterval = setInterval(checkCollisionBale, HUNDRED);
+    checkCollisionCactusInterval = setInterval(()=> {
+        checkCollision(firstObstacle);
+    }, HUNDRED);
+    checkCollisionRockInterval = setInterval(()=> {
+        checkCollision(thirdObstacle);
+    }, HUNDRED);
+    checkCollisionBaleInterval = setInterval(()=> {
+        checkCollision(secondObstacle);
+    }, HUNDRED);
 }
+
 //restart a new game function
 function restartGame() {
     changePosition = 2;
     level = 0;
     spanLevel.innerText = level;
-    gameInProcess = true;
+    gameInProgress = true;
     let restartButton = document.querySelector(".restartButton");
     restartButton.remove();
     let gameOverDiv = document.querySelector(".gameOverDiv");
@@ -272,9 +220,15 @@ function restartGame() {
     reset();
     start();
     setCreateObscatles = setInterval(createRandomObstacle, intervalCreateObstacles);
-    checkCollisionCactusInterval = setInterval(checkCollisionCactus, HUNDRED);
-    checkCollisionRockInterval = setInterval(checkCollisionRock, HUNDRED);
-    checkCollisionBaleInterval = setInterval(checkCollisionBale, HUNDRED);
+    checkCollisionCactusInterval = setInterval(()=> {
+        checkCollision(firstObstacle);
+    }, HUNDRED);
+    checkCollisionRockInterval = setInterval(()=> {
+        checkCollision(thirdObstacle);
+    }, HUNDRED);
+    checkCollisionBaleInterval = setInterval(()=> {
+        checkCollision(secondObstacle);
+    }, HUNDRED);
 }
 
 function createGameOverDiv() {
@@ -282,10 +236,11 @@ function createGameOverDiv() {
     windowGame.appendChild(gameOverDiv);
     gameOverDiv.classList.add("gameOverDiv");
 }
+
 //stop game
 function gameOver() {
     createGameOverDiv();
-    gameInProcess = false;
+    gameInProgress = false;
     pause();
     clearInterval(setCreateObscatles);
     createRestartButton();
@@ -307,8 +262,8 @@ function gameOver() {
         bale.remove();
     });
 }
-createStartButton();
 
+createStartButton();
 function createStartButton() {
     const startButton = document.createElement("button");
     windowGame.appendChild(startButton);
