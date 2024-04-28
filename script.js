@@ -88,7 +88,7 @@ let intervalCreateObstacles = 3000;
 function createRandomObstacle() {
     randomObstacle = getRandomNumber(1, 4);
     if (randomObstacle === cactusObstacle) {
-        obstacleType = "cactus";;
+        obstacleType = "cactus";
     } else if (randomObstacle === baleObstacle) {
         obstacleType = "bale";
     } else if (randomObstacle === rockObstacle) {
