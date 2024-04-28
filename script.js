@@ -34,10 +34,10 @@ let jumpDuration = 1300;
 function timeout(e) {
     if (e.key === " ") {
         setTimeout(
-            function dinosaurAvoide() {
-                const avoide = document.querySelector(".dinosaur");
+            function dinosaurLanding() {
+                const landingDino = document.querySelector(".dinosaur");
                 verticalPositionDinosaur -= jumpSize;
-                avoide.style.bottom = `${verticalPositionDinosaur}%`;
+                landingDino.style.bottom = `${verticalPositionDinosaur}%`;
         }, jumpDuration);
     }
 }
