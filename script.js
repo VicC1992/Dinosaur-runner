@@ -47,14 +47,14 @@ const startObstaclePosition = 950;
 let obstacleType;
 
 //create obstacles
-function createObstacleObjects(obstacleType) {
+function createObstacleObject(obstacleType) {
     const obstacle = document.createElement("div");
     windowGame.appendChild(obstacle);
     obstacle.classList.add(obstacleType);
-    obstacleObjectsMove(obstacle);
+    moveObject(obstacle);
 }
 
-function obstacleObjectsMove(obstacle) {
+function moveObject(obstacle) {
     if (gameInProgress) {
         let obstaclePosition = startObstaclePosition;
         let setObstacleMove = setInterval(() => {
@@ -94,7 +94,7 @@ function createRandomObstacle() {
     } else if (randomObstacle === rockObstacle) {
         obstacleType = "rock";
     }
-    createObstacleObjects(obstacleType);
+    createObstacleObject(obstacleType);
 }
 
 // check objects collisions
